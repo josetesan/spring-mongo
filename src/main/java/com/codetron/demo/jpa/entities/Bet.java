@@ -5,25 +5,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Date;
 
-
-@Document(collection = "games")
+@Document(collection = "bets")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class Game implements Serializable{
+public class Bet implements Serializable {
+
 
     @Id
     private String id;
-    @Indexed(unique = true)
-    private String name;
-    private BigDecimal price;
-    private BigDecimal prize;
+
+    @DBRef
+    private Draw draw;
+
+    @DBRef
+    private Customer customer;
+
+    private Date datePlayed;
+
 
 }

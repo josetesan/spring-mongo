@@ -1,7 +1,7 @@
 package com.codetron.demo.jpa.controllers;
 
-import com.codetron.demo.jpa.entities.Game;
-import com.codetron.demo.jpa.repository.MongoGameRepository;
+import com.codetron.demo.jpa.entities.Customer;
+import com.codetron.demo.jpa.repository.MongoCustomerRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,47 +20,46 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/mongo")
-public class MongoRestController {
+public class CustomerController {
 
 
-    private MongoGameRepository mongoGameRepository;
+    private MongoCustomerRepository mongoCustomerRepository;
 
 
-
-    public MongoRestController(MongoGameRepository mongoGameRepository) {
-        this.mongoGameRepository = mongoGameRepository;
+    public CustomerController(MongoCustomerRepository mongoCustomerRepository) {
+        this.mongoCustomerRepository = mongoCustomerRepository;
     }
 
-    @RequestMapping(value = "/games", method = RequestMethod.GET)
-    public List<Game> findAllTheGames(@RequestParam(value = "size", required = false) final Integer size) {
+    @RequestMapping(value = "/customers", method = RequestMethod.GET)
+    public List<Customer> findAllTheGames(@RequestParam(value = "size", required = false) final Integer size) {
 
         if (null != size) {
             Pageable pageable = new PageRequest(0,size);
-            Page<Game> games = this.mongoGameRepository
+            Page<Customer> list = this.mongoCustomerRepository
                     .findAll(pageable);
-            return games.getContent();
+            return list.getContent();
         } else {
-            return mongoGameRepository
+            return mongoCustomerRepository
                     .findAll();
         }
     }
 
-    @RequestMapping(value = "/games", method = RequestMethod.POST)
-    public ResponseEntity<String> createGame(@RequestBody Game game) {
+    @RequestMapping(value = "/customers", method = RequestMethod.POST)
+    public ResponseEntity<String> createGame(@RequestBody Customer customer) {
         final String id =
-                this.mongoGameRepository.save(game)
+                this.mongoCustomerRepository.save(customer)
                 .getId();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
-    @RequestMapping(value="/game",method = RequestMethod.GET)
+    @RequestMapping(value="/customer",method = RequestMethod.GET)
     public ResponseEntity<?> findGame(@RequestParam("name") final String name) {
 
-        List<Game> games = this.mongoGameRepository
+        List<Customer> list = this.mongoCustomerRepository
                 .findByName(name);
 
-        return ResponseEntity.ok(games);
+        return ResponseEntity.ok(list);
 
     }
 
