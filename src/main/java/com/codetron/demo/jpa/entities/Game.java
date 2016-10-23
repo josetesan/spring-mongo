@@ -1,7 +1,6 @@
 package com.codetron.demo.jpa.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -16,8 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-public class Game implements Serializable{
+public abstract class Game implements Serializable{
 
     @Id
     private String id;

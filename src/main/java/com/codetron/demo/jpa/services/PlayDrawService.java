@@ -13,17 +13,17 @@ import com.codetron.demo.jpa.repository.MongoCustomerRepository;
 import com.codetron.demo.jpa.repository.MongoDrawRepository;
 import com.codetron.demo.jpa.repository.MongoGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-/**
- * Created by josete on 23/10/16.
- */
+@Service
 public class PlayDrawService {
 
     private MongoBetRepository mongoBetRepository;
@@ -66,6 +66,7 @@ public class PlayDrawService {
                         .name("Euromillones")
                         .price(BigDecimal.TEN)
                         .prize(new BigDecimal(17_000_000L))
+                        .dayOfWeek(DayOfWeek.FRIDAY)
                 .build();
 
         return mongoGameRepository.save(euromillions);
@@ -80,6 +81,7 @@ public class PlayDrawService {
                         .name("Primitiva")
                         .price(BigDecimal.ONE)
                         .prize(new BigDecimal(1_000_000L))
+                        .dayOfWeek(DayOfWeek.TUESDAY)
                     .build();
 
         return mongoGameRepository.save(primitiva);
