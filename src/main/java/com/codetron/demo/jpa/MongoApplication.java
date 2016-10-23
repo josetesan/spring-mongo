@@ -32,10 +32,13 @@ public class MongoApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Customer customer = playDrawService.createCustomer();
-        Game game = playDrawService.createGame();
-        playDrawService.createDrawFor(game);
+        Game euromillions = playDrawService.createEuGame();
+        playDrawService.createDrawFor(euromillions);
+        Game  primitiva = playDrawService.createPrimitivaGame();
+        playDrawService.createDrawFor(primitiva);
 
-        this.playDrawService.playEuromillonesGame(game,customer);
+        this.playDrawService.playEuromillonesGame(euromillions,customer);
+        this.playDrawService.playPrimitivaGame(primitiva,customer);
 
     }
 

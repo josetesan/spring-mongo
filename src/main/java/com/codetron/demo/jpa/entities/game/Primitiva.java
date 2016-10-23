@@ -1,17 +1,18 @@
 package com.codetron.demo.jpa.entities.game;
 
+import com.codetron.demo.jpa.entities.Game;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.List;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Builder
-public class Primitiva implements Serializable {
+public class Primitiva extends Game  {
 
+    @Builder
+    private Primitiva(String id, String name, BigDecimal price, BigDecimal prize) {
+        super(id, name, price, prize);
+    }
 }

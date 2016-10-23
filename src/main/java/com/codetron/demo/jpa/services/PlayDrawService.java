@@ -5,13 +5,16 @@ import com.codetron.demo.jpa.entities.Customer;
 import com.codetron.demo.jpa.entities.Draw;
 import com.codetron.demo.jpa.entities.Game;
 import com.codetron.demo.jpa.entities.bet.EuromillionsBet;
+import com.codetron.demo.jpa.entities.bet.PrimitivaBet;
 import com.codetron.demo.jpa.entities.game.Euromillions;
+import com.codetron.demo.jpa.entities.game.Primitiva;
 import com.codetron.demo.jpa.repository.MongoBetRepository;
 import com.codetron.demo.jpa.repository.MongoCustomerRepository;
 import com.codetron.demo.jpa.repository.MongoDrawRepository;
 import com.codetron.demo.jpa.repository.MongoGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -55,16 +58,31 @@ public class PlayDrawService {
     }
 
 
-    public Game createGame() {
+    public Game createEuGame() {
 
         Euromillions euromillions =
                 Euromillions
                 .builder()
+                        .name("Euromillones")
+                        .price(BigDecimal.TEN)
+                        .prize(new BigDecimal(17_000_000L))
                 .build();
 
         return mongoGameRepository.save(euromillions);
 
 
+    }
+
+    public Game createPrimitivaGame() {
+
+        Primitiva primitiva =
+                Primitiva.builder()
+                        .name("Primitiva")
+                        .price(BigDecimal.ONE)
+                        .prize(new BigDecimal(1_000_000L))
+                    .build();
+
+        return mongoGameRepository.save(primitiva);
     }
 
 
@@ -87,7 +105,23 @@ public class PlayDrawService {
         return mongoBetRepository.save(euromillionsBet);
 
 
+    }
 
+
+    public Bet playPrimitivaGame(final Game game, final Customer customer) {
+
+        Draw draw = mongoDrawRepository.findByGame(game);
+
+        List<Integer> numeros = Arrays.asList(1,2,3,4,5);
+
+        PrimitivaBet primitivaBet = PrimitivaBet.builder()
+                .customer(customer)
+                .draw(draw)
+                .datePlayed(new Date())
+                .numeros(numeros)
+                .build();
+
+        return mongoBetRepository.save(primitivaBet);
 
     }
 
