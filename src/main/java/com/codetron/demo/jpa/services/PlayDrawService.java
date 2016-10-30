@@ -1,17 +1,11 @@
 package com.codetron.demo.jpa.services;
 
-import com.codetron.demo.jpa.entities.Bet;
-import com.codetron.demo.jpa.entities.Customer;
-import com.codetron.demo.jpa.entities.Draw;
-import com.codetron.demo.jpa.entities.Game;
+import com.codetron.demo.jpa.entities.*;
 import com.codetron.demo.jpa.entities.bet.EuromillionsBet;
 import com.codetron.demo.jpa.entities.bet.PrimitivaBet;
 import com.codetron.demo.jpa.entities.game.Euromillions;
 import com.codetron.demo.jpa.entities.game.Primitiva;
-import com.codetron.demo.jpa.repository.MongoBetRepository;
-import com.codetron.demo.jpa.repository.MongoCustomerRepository;
-import com.codetron.demo.jpa.repository.MongoDrawRepository;
-import com.codetron.demo.jpa.repository.MongoGameRepository;
+import com.codetron.demo.jpa.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +24,21 @@ public class PlayDrawService {
     private MongoCustomerRepository mongoCustomerRepository;
     private MongoDrawRepository mongoDrawRepository;
     private MongoGameRepository mongoGameRepository;
+    private MongoTicketRepository mongoTicketRepository;
+
 
     @Autowired
     public PlayDrawService(MongoBetRepository mongoBetRepository,
                            MongoCustomerRepository mongoCustomerRepository,
                            MongoDrawRepository mongoDrawRepository,
-                           MongoGameRepository mongoGameRepository) {
+                           MongoGameRepository mongoGameRepository,
+                           MongoTicketRepository mongoTicketRepository) {
         this.mongoBetRepository = mongoBetRepository;
         this.mongoCustomerRepository = mongoCustomerRepository;
         this.mongoDrawRepository = mongoDrawRepository;
         this.mongoGameRepository = mongoGameRepository;
+        this.mongoTicketRepository = mongoTicketRepository;
     }
-
 
     public Customer createCustomer() {
 
@@ -135,6 +132,17 @@ public class PlayDrawService {
                 .build();
 
         return mongoDrawRepository.save(draw);
+
+    }
+
+    public Ticket createTicketFor(Bet ... bets) {
+
+        Ticket ticket = Ticket.builder()
+                .dateCreated(new Date())
+                .bets(Arrays.asList(bets))
+                .build();
+
+        return this.mongoTicketRepository.save(ticket);
 
     }
 }
