@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,17 @@ public class PlayDrawService {
         this.mongoTicketRepository = mongoTicketRepository;
     }
 
+
+    public void reset() {
+
+        this.mongoGameRepository.deleteAll();
+        this.mongoBetRepository.deleteAll();
+        this.mongoCustomerRepository.deleteAll();
+        this.mongoDrawRepository.deleteAll();
+        this.mongoTicketRepository.deleteAll();
+
+    }
+
     public Customer createCustomer() {
 
         Random random = new Random(23122313L);
@@ -55,30 +67,29 @@ public class PlayDrawService {
     }
 
 
-    public Game createEuGame() {
+    public Game createEuGame(final DayOfWeek dayOfWeek) {
 
-        Euromillions euromillions =
+        final Euromillions euromillones =
                 Euromillions
                 .builder()
                         .name("Euromillones")
                         .price(BigDecimal.TEN)
                         .prize(new BigDecimal(17_000_000L))
-                        .dayOfWeek(DayOfWeek.FRIDAY)
+                        .dayOfWeek(dayOfWeek)
                 .build();
 
-        return mongoGameRepository.save(euromillions);
-
+         return mongoGameRepository.save(euromillones);
 
     }
 
-    public Game createPrimitivaGame() {
+    public Game createPrimitivaGame(final DayOfWeek dayOfWeek) {
 
         Primitiva primitiva =
                 Primitiva.builder()
                         .name("Primitiva")
                         .price(BigDecimal.ONE)
                         .prize(new BigDecimal(1_000_000L))
-                        .dayOfWeek(DayOfWeek.TUESDAY)
+                        .dayOfWeek(dayOfWeek)
                     .build();
 
         return mongoGameRepository.save(primitiva);
@@ -96,7 +107,7 @@ public class PlayDrawService {
         EuromillionsBet euromillionsBet = EuromillionsBet.builder()
                 .customer(customer)
                 .draw(draw)
-                .datePlayed(new Date())
+                .datePlayed(ZonedDateTime.now().toLocalDateTime())
                 .estrellas(estrellas)
                 .numeros(numeros)
                 .build();
@@ -116,7 +127,7 @@ public class PlayDrawService {
         PrimitivaBet primitivaBet = PrimitivaBet.builder()
                 .customer(customer)
                 .draw(draw)
-                .datePlayed(new Date())
+                .datePlayed(ZonedDateTime.now().toLocalDateTime())
                 .numeros(numeros)
                 .build();
 
@@ -128,7 +139,7 @@ public class PlayDrawService {
 
         Draw draw = Draw.builder()
                 .game(game)
-                .drawingDate(new Date())
+                .drawingDate(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
         return mongoDrawRepository.save(draw);
@@ -138,7 +149,7 @@ public class PlayDrawService {
     public Ticket createTicketFor(Bet ... bets) {
 
         Ticket ticket = Ticket.builder()
-                .dateCreated(new Date())
+                .dateCreated(ZonedDateTime.now().toLocalDateTime())
                 .bets(Arrays.asList(bets))
                 .build();
 

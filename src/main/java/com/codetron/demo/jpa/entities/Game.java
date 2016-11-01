@@ -19,7 +19,7 @@ public abstract class Game implements Serializable{
 
     @Id
     private String id;
-    @Indexed(unique = true)
+    @Indexed
     private String name;
     private BigDecimal price;
     private BigDecimal prize;
