@@ -1,22 +1,17 @@
 package com.codetron.demo.jpa.services;
 
-import com.codetron.demo.jpa.entities.Bet;
-import com.codetron.demo.jpa.entities.Customer;
-import com.codetron.demo.jpa.entities.Draw;
-import com.codetron.demo.jpa.entities.Game;
+import com.codetron.demo.jpa.entities.*;
 import com.codetron.demo.jpa.entities.bet.EuromillionsBet;
 import com.codetron.demo.jpa.entities.bet.PrimitivaBet;
 import com.codetron.demo.jpa.entities.game.Euromillions;
 import com.codetron.demo.jpa.entities.game.Primitiva;
-import com.codetron.demo.jpa.repository.MongoBetRepository;
-import com.codetron.demo.jpa.repository.MongoCustomerRepository;
-import com.codetron.demo.jpa.repository.MongoDrawRepository;
-import com.codetron.demo.jpa.repository.MongoGameRepository;
+import com.codetron.demo.jpa.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -30,18 +25,32 @@ public class PlayDrawService {
     private MongoCustomerRepository mongoCustomerRepository;
     private MongoDrawRepository mongoDrawRepository;
     private MongoGameRepository mongoGameRepository;
+    private MongoTicketRepository mongoTicketRepository;
+
 
     @Autowired
     public PlayDrawService(MongoBetRepository mongoBetRepository,
                            MongoCustomerRepository mongoCustomerRepository,
                            MongoDrawRepository mongoDrawRepository,
-                           MongoGameRepository mongoGameRepository) {
+                           MongoGameRepository mongoGameRepository,
+                           MongoTicketRepository mongoTicketRepository) {
         this.mongoBetRepository = mongoBetRepository;
         this.mongoCustomerRepository = mongoCustomerRepository;
         this.mongoDrawRepository = mongoDrawRepository;
         this.mongoGameRepository = mongoGameRepository;
+        this.mongoTicketRepository = mongoTicketRepository;
     }
 
+
+    public void reset() {
+
+        this.mongoGameRepository.deleteAll();
+        this.mongoBetRepository.deleteAll();
+        this.mongoCustomerRepository.deleteAll();
+        this.mongoDrawRepository.deleteAll();
+        this.mongoTicketRepository.deleteAll();
+
+    }
 
     public Customer createCustomer() {
 
@@ -58,30 +67,29 @@ public class PlayDrawService {
     }
 
 
-    public Game createEuGame() {
+    public Game createEuGame(final DayOfWeek dayOfWeek) {
 
-        Euromillions euromillions =
+        final Euromillions euromillones =
                 Euromillions
                 .builder()
                         .name("Euromillones")
                         .price(BigDecimal.TEN)
                         .prize(new BigDecimal(17_000_000L))
-                        .dayOfWeek(DayOfWeek.FRIDAY)
+                        .dayOfWeek(dayOfWeek)
                 .build();
 
-        return mongoGameRepository.save(euromillions);
-
+         return mongoGameRepository.save(euromillones);
 
     }
 
-    public Game createPrimitivaGame() {
+    public Game createPrimitivaGame(final DayOfWeek dayOfWeek) {
 
         Primitiva primitiva =
                 Primitiva.builder()
                         .name("Primitiva")
                         .price(BigDecimal.ONE)
                         .prize(new BigDecimal(1_000_000L))
-                        .dayOfWeek(DayOfWeek.TUESDAY)
+                        .dayOfWeek(dayOfWeek)
                     .build();
 
         return mongoGameRepository.save(primitiva);
@@ -99,7 +107,7 @@ public class PlayDrawService {
         EuromillionsBet euromillionsBet = EuromillionsBet.builder()
                 .customer(customer)
                 .draw(draw)
-                .datePlayed(new Date())
+                .datePlayed(ZonedDateTime.now().toLocalDateTime())
                 .estrellas(estrellas)
                 .numeros(numeros)
                 .build();
@@ -119,7 +127,7 @@ public class PlayDrawService {
         PrimitivaBet primitivaBet = PrimitivaBet.builder()
                 .customer(customer)
                 .draw(draw)
-                .datePlayed(new Date())
+                .datePlayed(ZonedDateTime.now().toLocalDateTime())
                 .numeros(numeros)
                 .build();
 
@@ -131,10 +139,21 @@ public class PlayDrawService {
 
         Draw draw = Draw.builder()
                 .game(game)
-                .drawingDate(new Date())
+                .drawingDate(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
         return mongoDrawRepository.save(draw);
+
+    }
+
+    public Ticket createTicketFor(Bet ... bets) {
+
+        Ticket ticket = Ticket.builder()
+                .dateCreated(ZonedDateTime.now().toLocalDateTime())
+                .bets(Arrays.asList(bets))
+                .build();
+
+        return this.mongoTicketRepository.save(ticket);
 
     }
 }

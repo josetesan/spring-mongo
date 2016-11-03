@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class EuromillionsBet extends Bet {
     private List<Integer> estrellas;
 
     @Builder
-    private EuromillionsBet(String id, Draw draw, Customer customer, Date datePlayed,
+    private EuromillionsBet(String id, Draw draw, Customer customer, LocalDateTime datePlayed,
                             List<Integer> numeros,List<Integer> estrellas) {
         super(id, draw, customer, datePlayed);
         this.estrellas = estrellas;
