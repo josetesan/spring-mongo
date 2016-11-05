@@ -45,7 +45,7 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "/orders/{customerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders/customer/{customerId}", method = RequestMethod.GET)
     public List<Order> findAllTheOrdersOfAnUser(@PathVariable("customerId") final Customer customer) {
 
         return this.mongoOrderRepository.findByCustomer(customer);
