@@ -11,11 +11,10 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'mongo'
+	baseName = 'nlp-mongo24'
 	version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
@@ -25,14 +24,11 @@ repositories {
 	mavenCentral()
 }
 
-dependencyManagement {
-  imports {
-    mavenBom 'org.springframework.data:spring-data-releasetrain:Hopper-SR5'
-  }
-}
+ext ['spring-data-releasetrain.version'] = 'Hopper-SR5'
+
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.16.10'
+    compileOnly 'org.projectlombok:lombok'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')

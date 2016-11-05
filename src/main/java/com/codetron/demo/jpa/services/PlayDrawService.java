@@ -1,11 +1,19 @@
 package com.codetron.demo.jpa.services;
 
-import com.codetron.demo.jpa.entities.*;
+import com.codetron.demo.jpa.entities.Bet;
+import com.codetron.demo.jpa.entities.Customer;
+import com.codetron.demo.jpa.entities.Draw;
+import com.codetron.demo.jpa.entities.Game;
+import com.codetron.demo.jpa.entities.Ticket;
 import com.codetron.demo.jpa.entities.bet.EuromillionsBet;
 import com.codetron.demo.jpa.entities.bet.PrimitivaBet;
 import com.codetron.demo.jpa.entities.game.Euromillions;
 import com.codetron.demo.jpa.entities.game.Primitiva;
-import com.codetron.demo.jpa.repository.*;
+import com.codetron.demo.jpa.repository.MongoBetRepository;
+import com.codetron.demo.jpa.repository.MongoCustomerRepository;
+import com.codetron.demo.jpa.repository.MongoDrawRepository;
+import com.codetron.demo.jpa.repository.MongoGameRepository;
+import com.codetron.demo.jpa.repository.MongoTicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +21,6 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;

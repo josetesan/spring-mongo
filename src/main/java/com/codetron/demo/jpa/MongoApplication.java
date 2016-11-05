@@ -3,7 +3,6 @@ package com.codetron.demo.jpa;
 import com.codetron.demo.jpa.entities.Bet;
 import com.codetron.demo.jpa.entities.Customer;
 import com.codetron.demo.jpa.entities.Game;
-import com.codetron.demo.jpa.entities.Ticket;
 import com.codetron.demo.jpa.services.PlayDrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,8 +12,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.Date;
 
 @SpringBootApplication
 @EntityScan(basePackageClasses = { MongoApplication.class, Jsr310JpaConverters.class })
