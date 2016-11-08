@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.1.RELEASE'
+		springBootVersion = '1.4.2.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 jar {
 	baseName = 'nlp-mongo24'
@@ -24,7 +24,7 @@ repositories {
 	mavenCentral()
 }
 
-ext ['spring-data-releasetrain.version'] = 'Hopper-SR5'
+//ext ['spring-data-releasetrain.version'] = 'Hopper-SR5'
 
 
 dependencies {
