@@ -21,7 +21,6 @@ public class Customer implements Serializable{
 
     @Id
     private String id;
-
     private String name;
     private String surname;
     private Integer age;

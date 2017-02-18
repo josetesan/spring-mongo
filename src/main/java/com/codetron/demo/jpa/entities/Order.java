@@ -1,27 +1,33 @@
 package com.codetron.demo.jpa.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-
-@Document(collection = "games")
+@Document(collection = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public abstract class Game implements Serializable{
+@Builder
+public class Order implements Serializable{
 
     @Id
     private String id;
-    @Indexed
-    private String name;
-    private BigDecimal price;
-    private BigDecimal prize;
+
+    @DBRef
+    private Customer customer;
+
+    private LocalDateTime createDate;
+
+    @DBRef
+    private Ticket ticket;
+
 
 }

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +24,5 @@ public class Draw implements Serializable{
 
     @DBRef
     private Game game;
-
-
-    private Date drawingDate;
+    private LocalDateTime drawingDate;
 }
